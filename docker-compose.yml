@@ -1,10 +1,12 @@
 version: "3.6"
 
-x-build-args: &build_args
+x-build-args:
+  &build_args
   INSTALL_PYTHON_VERSION: "3.9"
-  INSTALL_NODE_VERSION: ""
+  INSTALL_NODE_VERSION: "17"
 
-x-default-volumes: &default_volumes
+x-default-volumes:
+  &default_volumes
   volumes:
     - ./:/app
     - node-modules:/app/node_modules
