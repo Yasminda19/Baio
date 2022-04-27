@@ -34,7 +34,7 @@ RUN chown -R sid:sid /app
 USER sid
 ENV PATH="/home/sid/.local/bin:${PATH}"
 
-COPY --from=builder --chown=sid:sid /app/flask_thesis_app/static /app/flask_thesis_app/static
+COPY --from=builder --chown=sid:sid /app/flask_thesis_app/flask_thesis_app/static /app/flask_thesis_app/flask_thesis_app/static
 COPY requirements requirements
 RUN pip install --no-cache --user -r requirements/prod.txt
 
