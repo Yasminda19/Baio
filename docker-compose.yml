@@ -34,6 +34,8 @@ services:
     image: "flask_thesis_app-production"
     ports:
       - "8080:5000"
+    env_file:
+      - .env.production
     environment:
       FLASK_ENV: production
       FLASK_DEBUG: 0

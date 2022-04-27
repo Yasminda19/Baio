@@ -53,6 +53,7 @@ env/
 
 # Configuration
 .env
+.env.production
 
 # Development database
 *.db
