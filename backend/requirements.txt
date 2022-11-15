@@ -1,0 +1,5 @@
+fastapi==0.86.0
+uvicorn[standard]==0.16.0
+sqlservice==2.0.1
+SQLAlchemy==1.4.43
+aiosqlite==0.17.0
