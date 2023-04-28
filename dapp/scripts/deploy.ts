@@ -1,18 +1,21 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const [owner, otherAccount] = await ethers.getSigners();
+  // console.log(owner.address, otherAccount.address);
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  const Baio = await ethers.getContractFactory("Baio");
+  const baio = await Baio.connect(owner).deploy();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  await baio.deployed();
 
-  await lock.deployed();
+  let tx = await baio.connect(owner).newLedger(otherAccount.address);
+  await tx.wait();
 
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  const ledgerAddress = await baio
+    .connect(owner)
+    .getLedger(otherAccount.address);
+  const ledger = await ethers.getContractAt("BaioLedger", ledgerAddress);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

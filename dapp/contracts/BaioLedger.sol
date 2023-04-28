@@ -9,6 +9,7 @@ contract BaioLedger is Ownable {
     Counters.Counter private _recordIds;
 
     event Record(
+        uint16 version,
         bytes data
     );
 
@@ -17,12 +18,10 @@ contract BaioLedger is Ownable {
     }
 
     function store(
+        uint16 version,
         bytes calldata data
     ) public onlyOwner {
-        emit Record(
-            data
-        );
-
+        emit Record(version, data);
         _recordIds.increment();
     }
 }
