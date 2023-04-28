@@ -1,5 +1,15 @@
-fastapi==0.86.0
-uvicorn[standard]==0.16.0
-sqlservice==2.0.1
-SQLAlchemy==1.4.43
-aiosqlite==0.17.0
+fastapi==0.95.1
+uvicorn[standard]==0.21.1
+
+# http client
+# httpx==0.23.3
+
+# database
+SQLAlchemy==2.0.7
+aiosqlite==0.18.0
+alembic==1.10.2
+
+# auth service
+# async-cache==1.1.1
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4

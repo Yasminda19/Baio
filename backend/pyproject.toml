@@ -1,0 +1,32 @@
+[project]
+name = "sec-security-scanner"
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.yapf]
+based_on_style = "google"
+
+[tool.isort]
+profile = "google"
+src_paths = ["app", "tests"]
+
+[tool.pylsp-mypy]
+enabled = true
+live_mode = false
+strict = true
+dmypy = true
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+
+[[tool.mypy.overrides]]
+module = [
+  "app.*"
+]
+ignore_missing_imports = true
+follow_imports = "normal"
+disallow_untyped_defs = true
+disallow_untyped_calls = true
