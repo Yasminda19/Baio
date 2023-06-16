@@ -1,9 +1,7 @@
 from http import HTTPStatus
 import os
-from random import randbytes
 import time
-from typing import Annotated, AsyncIterator
-from uuid import UUID
+from typing import Annotated
 
 from fastapi import Depends
 from fastapi import HTTPException
@@ -14,16 +12,16 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from app.db import get_session
 from app.models.users import User
 from app.models.users import UserSchema
-from app.settings import Settings
+from app.settings import config
 
 from .schemas import AuthLoginResponse
 
 AsyncSession = Annotated[async_sessionmaker, Depends(get_session)]
 _crypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-_secret = Settings().BAIO_SECRET
 
 
 class AuthLogin:
+
     def __init__(self, session: AsyncSession) -> None:
         self.dbsession = session
 
@@ -51,8 +49,7 @@ class AuthLogin:
                 "exp": now + 3600,  # expire in 1 hour
                 "jti": os.urandom(16).hex(),
             },
-            _secret,
-            algorithm="HS512"
-        )
+            config.SECRET,
+            algorithm="HS512")
 
         return AuthLoginResponse(access_token=token, token_type="bearer")

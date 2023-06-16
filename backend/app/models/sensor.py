@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from enum import Enum
-from typing import AsyncIterator, Optional
+from typing import Optional
 
 from pydantic import BaseModel
 from sqlalchemy import Boolean
@@ -38,7 +37,8 @@ class Sensor(Base):
     user: Mapped[User] = relationship("User", back_populates="sensors")
 
     @classmethod
-    async def get_by_id(cls, session: AsyncSession, uid: int) -> Optional[Sensor]:
+    async def get_by_id(cls, session: AsyncSession,
+                        uid: int) -> Optional[Sensor]:
         stmt = select(cls).where(cls.id == uid)
         return await session.scalar(stmt.order_by(cls.id))
 
@@ -50,7 +50,7 @@ class Sensor(Base):
 
     @classmethod
     async def create(cls, session: AsyncSession, address: str,
-                     user: User) -> Instance:
+                     user: User) -> Sensor:
         sensor = cls(address=address, user_id=user.id)
         session.add(sensor)
         await session.flush()
@@ -63,3 +63,8 @@ class Sensor(Base):
     async def delete(self, session: AsyncSession) -> None:
         await session.delete(self)
         await session.flush()
+
+
+class SensorSchema(BaseModel):
+    name: Optional[str]
+    address: str

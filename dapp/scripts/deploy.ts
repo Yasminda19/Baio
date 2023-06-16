@@ -9,13 +9,16 @@ async function main() {
 
   await baio.deployed();
 
+  console.log("Baio @", baio.address);
+
   let tx = await baio.connect(owner).newLedger(otherAccount.address);
   await tx.wait();
 
   const ledgerAddress = await baio
     .connect(owner)
     .getLedger(otherAccount.address);
-  const ledger = await ethers.getContractAt("BaioLedger", ledgerAddress);
+
+  console.log("BaioLedger @", ledgerAddress);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

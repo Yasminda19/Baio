@@ -6,17 +6,11 @@ from fastapi.responses import JSONResponse
 
 from app.api.auth.views import router as auth_v1_router
 from app.api.sensor.views import router as sensor_v1_router
-from app.middleware.auth import AuthenticationBackend
-from app.middleware.auth import AuthenticationMiddleware
-from app.settings import Settings
+from app.settings import config
 
-cfg = Settings()
-
-app = FastAPI(title="Baio")
-app.add_middleware(
-    AuthenticationMiddleware,
-    backend=AuthenticationBackend(secret=cfg.BAIO_SECRET)
-)
+app = FastAPI(title="Baio", docs_url="/docs")
+# app.add_middleware(AuthenticationMiddleware,
+#                    backend=AuthenticationBackend(secret=config.SECRET))
 
 apiv1 = APIRouter(prefix="/api/v1", tags=["apiv1"])
 apiv1.include_router(auth_v1_router)

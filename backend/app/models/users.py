@@ -12,7 +12,9 @@ from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 
 from .base import Base
-from .sensor import Sensor
+
+if TYPE_CHECKING:
+    from .sensor import Sensor
 
 
 class User(Base):
