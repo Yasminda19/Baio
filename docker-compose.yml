@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  app:
+    build: backend/
+    ports:
+      - 127.0.0.1:5000:5000
+    env_file:
+      - .env
+    volumes:
+      - ./db.sqlite3:/srv/db.sqlite3:rw
+  eth:
+    image: trufflesuite/ganache:v7.9.0
+    command:
+      --wallet.accounts 0x6d1d883be88db72bfb33b6a32b5421a47b0e7fe26304938dbe1688ac279356b5,1000000000000000000000
+      --wallet.accounts 0xe390ba782cca7cf9f74a12e4f8360e2c7e02ef842739ffff5ae9628ff3b58c0a,1000000000000000000000
+    ports:
+      - 127.0.0.1:8545:8545
