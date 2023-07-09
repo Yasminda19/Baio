@@ -91,10 +91,12 @@ async def get_live_image(address: str) -> FileResponse:
     if not file.exists():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
-    return FileResponse(file,
-                        media_type="image/jpeg",
-                        filename=f"{address}.jpeg",
-                        content_disposition_type="inline")
+    return FileResponse(
+        file,
+        media_type="image/jpeg",
+        filename=f"{address}.jpeg",
+        content_disposition_type="inline",
+    )
 
 
 @router.post("/{address}/live.jpeg")

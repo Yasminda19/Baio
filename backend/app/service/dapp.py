@@ -18,7 +18,6 @@ from web3.contract import Contract
 
 
 class Record(BaseModel):
-    id: int
     datetime: int
     health: str
 
@@ -32,10 +31,15 @@ class Record(BaseModel):
     def from_event(cls: Record, event: Any):
         datetime, hr, rr, temp, temp_point, pos, awake = struct.unpack(
             "<IHHHHHH", event.args.data)
-        position = ["terlentang", "tengkurap"][pos]
-        return cls(id=event.blockNumber,
-                   datetime=datetime,
-                   health="OK",
+        position = ["TERLENTANG", "TENGKURAP"][pos]
+        temperature = temp + temp_point / 100
+        health = "NOT OK"
+        if rr >= 95 and (temperature > 35.8 and
+                         temperature < 38) and (hr > 100 and hr < 160):
+            health = "OK"
+
+        return cls(datetime=datetime,
+                   health=health,
                    heart_rate=hr,
                    respiratory_rate=rr,
                    temperature=temp + temp_point / 100,
