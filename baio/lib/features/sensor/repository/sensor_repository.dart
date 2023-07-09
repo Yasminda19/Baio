@@ -22,7 +22,7 @@ class BaioSensorRepository implements SensorRepository {
   BaioSensorRepository(this._client);
 
   static final sensorListEndpoint =
-      Uri.parse('http://localhost:5000/api/v1/sensors');
+      Uri.parse('https://baio.circleous.dev/api/v1/sensors');
 
   @override
   Future<List<Sensor>> getListSensor() async {
@@ -40,7 +40,7 @@ class BaioSensorRepository implements SensorRepository {
   @override
   Future<Sensor> getSensor(String sensorAddress) async {
     var sensorEndpoint =
-        Uri.parse("http://localhost:5000/api/v1/sensors/$sensorAddress");
+        Uri.parse("https://baio.circleous.dev/api/v1/sensors/$sensorAddress");
     var response = await _client.get(sensorEndpoint);
     var json = convert.jsonDecode(response.body);
 
@@ -54,7 +54,7 @@ class BaioSensorRepository implements SensorRepository {
   @override
   Future<List<HealthRecord>> getHealthRecord(String sensorAddress) async {
     var sensorHealthRecordEndpoint = Uri.parse(
-        "http://localhost:5000/api/v1/sensors/$sensorAddress/records");
+        "https://baio.circleous.dev/api/v1/sensors/$sensorAddress/records");
     var response = await _client.get(sensorHealthRecordEndpoint);
     var json = convert.jsonDecode(response.body);
 

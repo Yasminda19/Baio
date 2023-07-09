@@ -28,10 +28,10 @@ class BaioAuthRepository implements AuthRepository {
   BaioClient? get client => _client.value;
 
   static final loginEndpoint =
-      Uri.parse('http://localhost:5000/api/v1/auth/login');
+      Uri.parse('https://baio.circleous.dev/api/v1/auth/login');
 
   static final currentUserEndpoint =
-      Uri.parse('http://localhost:5000/api/v1/auth/user');
+      Uri.parse('https://baio.circleous.dev/api/v1/auth/user');
 
   @override
   Future<Either<User, BaioException>> getCurrentUser() async {
