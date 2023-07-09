@@ -8,24 +8,24 @@ export default defineConfig({
     host: "0.0.0.0",
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: "http://127.0.0.1:5000",
         changeOrigin: true,
         cookieDomainRewrite: {
-          "http://localhost:5000": "http://localhost:51723",
+          "http://127.0.0.1:5000": "http://127.0.0.1:5173",
         },
       },
       "/docs": {
-        target: "http://localhost:5000",
+        target: "http://127.0.0.1:5000",
         changeOrigin: true,
         cookieDomainRewrite: {
-          "http://localhost:5000": "http://localhost:51723",
+          "http://127.0.0.1:5000": "http://127.0.0.1:5173",
         },
       },
       "/openapi.json": {
-        target: "http://localhost:5000",
+        target: "http://127.0.0.1:5000",
         changeOrigin: true,
         cookieDomainRewrite: {
-          "http://localhost:5000": "http://localhost:51723",
+          "http://127.0.0.1:5000": "http://127.0.0.1:5173",
         },
       },
     },

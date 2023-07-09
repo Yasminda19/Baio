@@ -40,18 +40,19 @@ TimestampFormatter.propTypes = {
 const columns = [
   {
     key: "datetime",
-    name: "Timestamp",
+    name: "Date/Time",
     sortable: true,
     formatter(props) {
       return <TimestampFormatter timestamp={props.row.datetime} />;
     },
   },
-  { key: "status", name: "Status" },
   { key: "heart_rate", name: "Heart Rate" },
   { key: "respiratory_rate", name: "Oxygen Saturation" },
   { key: "temperature", name: "Temperature" },
   { key: "position", name: "Position" },
-  { key: "awake_status", name: "Awake Status" },
+  { key: "awake_status", name: "Awake Status",formatter(props) {
+    return <>{props.row.awake_status ? "BANGUN": "TIDUR"}</>;
+  } },
   { key: "health", name: "Overall Health" },
 ];
 
