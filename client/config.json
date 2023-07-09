@@ -1,0 +1,13 @@
+{
+    "server": {
+        "rpc": "http://localhost:8545",
+        "api": "http://localhost:5000",
+        "baioAddress": "0xCD899d2df67583E4c3Ec1cC4e930cf4F5face855"
+    },
+    "accounts": [
+        {
+            "name": "john",
+            "private_key": "keys/john.dat"
+        }
+    ]
+}
