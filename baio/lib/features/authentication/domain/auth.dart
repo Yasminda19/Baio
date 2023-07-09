@@ -6,8 +6,8 @@ part 'auth.g.dart';
 @freezed
 class AuthLoginResult with _$AuthLoginResult {
   const factory AuthLoginResult({
-    required int tokenType,
-    required String accessToken,
+    required String token_type,
+    required String access_token,
   }) = _AuthLoginResult;
 
   factory AuthLoginResult.fromJson(Map<String, Object?> json) =>

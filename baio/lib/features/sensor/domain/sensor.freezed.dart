@@ -167,7 +167,7 @@ SensorListResults _$SensorListResultsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SensorListResults {
-  BaioMeta get meta => throw _privateConstructorUsedError;
+  BaioMeta? get meta => throw _privateConstructorUsedError;
   List<Sensor> get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -182,9 +182,9 @@ abstract class $SensorListResultsCopyWith<$Res> {
           SensorListResults value, $Res Function(SensorListResults) then) =
       _$SensorListResultsCopyWithImpl<$Res, SensorListResults>;
   @useResult
-  $Res call({BaioMeta meta, List<Sensor> data});
+  $Res call({BaioMeta? meta, List<Sensor> data});
 
-  $BaioMetaCopyWith<$Res> get meta;
+  $BaioMetaCopyWith<$Res>? get meta;
 }
 
 /// @nodoc
@@ -200,14 +200,14 @@ class _$SensorListResultsCopyWithImpl<$Res, $Val extends SensorListResults>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? meta = null,
+    Object? meta = freezed,
     Object? data = null,
   }) {
     return _then(_value.copyWith(
-      meta: null == meta
+      meta: freezed == meta
           ? _value.meta
           : meta // ignore: cast_nullable_to_non_nullable
-              as BaioMeta,
+              as BaioMeta?,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -217,8 +217,12 @@ class _$SensorListResultsCopyWithImpl<$Res, $Val extends SensorListResults>
 
   @override
   @pragma('vm:prefer-inline')
-  $BaioMetaCopyWith<$Res> get meta {
-    return $BaioMetaCopyWith<$Res>(_value.meta, (value) {
+  $BaioMetaCopyWith<$Res>? get meta {
+    if (_value.meta == null) {
+      return null;
+    }
+
+    return $BaioMetaCopyWith<$Res>(_value.meta!, (value) {
       return _then(_value.copyWith(meta: value) as $Val);
     });
   }
@@ -232,10 +236,10 @@ abstract class _$$_SensorListResultsCopyWith<$Res>
       __$$_SensorListResultsCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({BaioMeta meta, List<Sensor> data});
+  $Res call({BaioMeta? meta, List<Sensor> data});
 
   @override
-  $BaioMetaCopyWith<$Res> get meta;
+  $BaioMetaCopyWith<$Res>? get meta;
 }
 
 /// @nodoc
@@ -249,14 +253,14 @@ class __$$_SensorListResultsCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? meta = null,
+    Object? meta = freezed,
     Object? data = null,
   }) {
     return _then(_$_SensorListResults(
-      meta: null == meta
+      meta: freezed == meta
           ? _value.meta
           : meta // ignore: cast_nullable_to_non_nullable
-              as BaioMeta,
+              as BaioMeta?,
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -276,7 +280,7 @@ class _$_SensorListResults implements _SensorListResults {
       _$$_SensorListResultsFromJson(json);
 
   @override
-  final BaioMeta meta;
+  final BaioMeta? meta;
   final List<Sensor> _data;
   @override
   List<Sensor> get data {
@@ -321,14 +325,14 @@ class _$_SensorListResults implements _SensorListResults {
 
 abstract class _SensorListResults implements SensorListResults {
   const factory _SensorListResults(
-      {required final BaioMeta meta,
+      {required final BaioMeta? meta,
       required final List<Sensor> data}) = _$_SensorListResults;
 
   factory _SensorListResults.fromJson(Map<String, dynamic> json) =
       _$_SensorListResults.fromJson;
 
   @override
-  BaioMeta get meta;
+  BaioMeta? get meta;
   @override
   List<Sensor> get data;
   @override

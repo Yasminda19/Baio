@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:baio/constants/exceptions.dart';
 import 'package:baio/constants/routes.dart';
+import 'package:baio/features/authentication/presentation/login_screen.dart';
 import 'package:baio/features/authentication/repository/auth_repository.dart';
 import 'package:baio/features/sensor/presentation/sensor_list_screen.dart';
 import 'package:baio/features/sensor/presentation/sensor_screen.dart';
@@ -38,7 +39,7 @@ GoRouter goRouter(GoRouterRef ref) {
       final user = await authRepository.getCurrentUser();
       final bool loggingIn = state.matchedLocation == '/login';
 
-      if (user is BaioException) {
+      if (user.isRight()) {
         return '/login';
       }
 
@@ -50,6 +51,11 @@ GoRouter goRouter(GoRouterRef ref) {
     },
     refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
     routes: [
+      GoRoute(
+        path: '/login',
+        name: Routes.login.name,
+        builder: (context, state) => const LoginScreen(),
+      ),
       GoRoute(
         path: '/',
         name: Routes.sensorList.name,
@@ -64,10 +70,6 @@ GoRouter goRouter(GoRouterRef ref) {
                   sensorAddress: sensorAddress,
                 );
               }),
-          // GoRoute(
-          //   path: 'login',
-          //   name: Routes.login.name,
-          // )
         ],
       )
     ],

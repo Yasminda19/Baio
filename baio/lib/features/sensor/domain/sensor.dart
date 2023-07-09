@@ -18,7 +18,7 @@ class Sensor with _$Sensor {
 @freezed
 class SensorListResults with _$SensorListResults {
   const factory SensorListResults({
-    required BaioMeta meta,
+    required BaioMeta? meta,
     required List<Sensor> data,
   }) = _SensorListResults;
 

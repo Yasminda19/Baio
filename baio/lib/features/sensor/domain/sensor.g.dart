@@ -18,7 +18,9 @@ Map<String, dynamic> _$$_SensorToJson(_$_Sensor instance) => <String, dynamic>{
 
 _$_SensorListResults _$$_SensorListResultsFromJson(Map<String, dynamic> json) =>
     _$_SensorListResults(
-      meta: BaioMeta.fromJson(json['meta'] as Map<String, dynamic>),
+      meta: json['meta'] == null
+          ? null
+          : BaioMeta.fromJson(json['meta'] as Map<String, dynamic>),
       data: (json['data'] as List<dynamic>)
           .map((e) => Sensor.fromJson(e as Map<String, dynamic>))
           .toList(),

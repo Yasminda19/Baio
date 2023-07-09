@@ -6,8 +6,6 @@ import 'package:baio/core/baio.dart';
 import 'package:baio/features/authentication/repository/auth_repository.dart';
 import 'package:baio/features/sensor/domain/record.dart';
 import 'package:baio/features/sensor/domain/sensor.dart';
-import 'package:http/http.dart' as http;
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sensor_repository.g.dart';

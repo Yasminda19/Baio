@@ -31,7 +31,7 @@ class BaioAuthRepository implements AuthRepository {
       Uri.parse('http://localhost:5000/api/v1/auth/login');
 
   static final currentUserEndpoint =
-      Uri.parse('http://localhost:5000/api/v1/auth');
+      Uri.parse('http://localhost:5000/api/v1/auth/user');
 
   @override
   Future<Either<User, BaioException>> getCurrentUser() async {
@@ -56,6 +56,12 @@ class BaioAuthRepository implements AuthRepository {
     }
   }
 
+  BaioClient mockAuthenticate() {
+    var client = BaioClient("token", http.Client());
+    _client.value = client;
+    return client;
+  }
+
   @override
   Future<Either<BaioClient, BaioException>> authenticate(
       String username, String password) async {
@@ -70,12 +76,13 @@ class BaioAuthRepository implements AuthRepository {
     var json = convert.jsonDecode(response.body);
 
     if (response.statusCode != HttpStatus.ok) {
-      var exc = BaioException.fromJson(json);
+      var exc =
+          BaioException(status: response.statusCode, message: json["detail"]);
       return right(exc);
     }
 
     var res = AuthLoginResult.fromJson(json);
-    var baioClient = BaioClient(res.accessToken, http.Client());
+    var baioClient = BaioClient(res.access_token, http.Client());
     _client.value = baioClient;
     return left(baioClient);
   }

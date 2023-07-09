@@ -20,8 +20,8 @@ AuthLoginResult _$AuthLoginResultFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AuthLoginResult {
-  int get tokenType => throw _privateConstructorUsedError;
-  String get accessToken => throw _privateConstructorUsedError;
+  String get token_type => throw _privateConstructorUsedError;
+  String get access_token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $AuthLoginResultCopyWith<$Res> {
           AuthLoginResult value, $Res Function(AuthLoginResult) then) =
       _$AuthLoginResultCopyWithImpl<$Res, AuthLoginResult>;
   @useResult
-  $Res call({int tokenType, String accessToken});
+  $Res call({String token_type, String access_token});
 }
 
 /// @nodoc
@@ -51,17 +51,17 @@ class _$AuthLoginResultCopyWithImpl<$Res, $Val extends AuthLoginResult>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tokenType = null,
-    Object? accessToken = null,
+    Object? token_type = null,
+    Object? access_token = null,
   }) {
     return _then(_value.copyWith(
-      tokenType: null == tokenType
-          ? _value.tokenType
-          : tokenType // ignore: cast_nullable_to_non_nullable
-              as int,
-      accessToken: null == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
+      token_type: null == token_type
+          ? _value.token_type
+          : token_type // ignore: cast_nullable_to_non_nullable
+              as String,
+      access_token: null == access_token
+          ? _value.access_token
+          : access_token // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -75,7 +75,7 @@ abstract class _$$_AuthLoginResultCopyWith<$Res>
       __$$_AuthLoginResultCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int tokenType, String accessToken});
+  $Res call({String token_type, String access_token});
 }
 
 /// @nodoc
@@ -89,17 +89,17 @@ class __$$_AuthLoginResultCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? tokenType = null,
-    Object? accessToken = null,
+    Object? token_type = null,
+    Object? access_token = null,
   }) {
     return _then(_$_AuthLoginResult(
-      tokenType: null == tokenType
-          ? _value.tokenType
-          : tokenType // ignore: cast_nullable_to_non_nullable
-              as int,
-      accessToken: null == accessToken
-          ? _value.accessToken
-          : accessToken // ignore: cast_nullable_to_non_nullable
+      token_type: null == token_type
+          ? _value.token_type
+          : token_type // ignore: cast_nullable_to_non_nullable
+              as String,
+      access_token: null == access_token
+          ? _value.access_token
+          : access_token // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -109,19 +109,19 @@ class __$$_AuthLoginResultCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AuthLoginResult implements _AuthLoginResult {
   const _$_AuthLoginResult(
-      {required this.tokenType, required this.accessToken});
+      {required this.token_type, required this.access_token});
 
   factory _$_AuthLoginResult.fromJson(Map<String, dynamic> json) =>
       _$$_AuthLoginResultFromJson(json);
 
   @override
-  final int tokenType;
+  final String token_type;
   @override
-  final String accessToken;
+  final String access_token;
 
   @override
   String toString() {
-    return 'AuthLoginResult(tokenType: $tokenType, accessToken: $accessToken)';
+    return 'AuthLoginResult(token_type: $token_type, access_token: $access_token)';
   }
 
   @override
@@ -129,15 +129,15 @@ class _$_AuthLoginResult implements _AuthLoginResult {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AuthLoginResult &&
-            (identical(other.tokenType, tokenType) ||
-                other.tokenType == tokenType) &&
-            (identical(other.accessToken, accessToken) ||
-                other.accessToken == accessToken));
+            (identical(other.token_type, token_type) ||
+                other.token_type == token_type) &&
+            (identical(other.access_token, access_token) ||
+                other.access_token == access_token));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, tokenType, accessToken);
+  int get hashCode => Object.hash(runtimeType, token_type, access_token);
 
   @JsonKey(ignore: true)
   @override
@@ -155,16 +155,16 @@ class _$_AuthLoginResult implements _AuthLoginResult {
 
 abstract class _AuthLoginResult implements AuthLoginResult {
   const factory _AuthLoginResult(
-      {required final int tokenType,
-      required final String accessToken}) = _$_AuthLoginResult;
+      {required final String token_type,
+      required final String access_token}) = _$_AuthLoginResult;
 
   factory _AuthLoginResult.fromJson(Map<String, dynamic> json) =
       _$_AuthLoginResult.fromJson;
 
   @override
-  int get tokenType;
+  String get token_type;
   @override
-  String get accessToken;
+  String get access_token;
   @override
   @JsonKey(ignore: true)
   _$$_AuthLoginResultCopyWith<_$_AuthLoginResult> get copyWith =>
