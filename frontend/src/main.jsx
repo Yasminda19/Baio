@@ -7,13 +7,15 @@ import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 
 import Layout from "./components/Layout";
 
-import { sensorLoader } from "./components/pages/loader";
+import { sensorLoader, sensorListLoader } from "./components/pages/loader";
 import Login from "./components/pages/Login";
 import SensorList from "./components/pages/SensorList";
 import Sensor from "./components/pages/Sensor";
+import SensorAdd from "./components/pages/SensorAdd";
 
 import { AuthProvider, ProtectedRoute } from "./auth";
 import customTheme from "./theme";
+import { getUser } from "./service/auth";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
+        loader: getUser,
         element: (
           <ProtectedRoute>
             <Layout />
@@ -33,8 +36,13 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            path: "sensors",
+            path: "",
             element: <SensorList />,
+            loader: sensorListLoader,
+          },
+          {
+            path: "sensors/new",
+            element: <SensorAdd />,
           },
           {
             path: "sensors/:address",
@@ -48,6 +56,7 @@ const router = createBrowserRouter([
         element: <Login />,
       },
     ],
+    errorElement: <></>,
   },
 ]);
 

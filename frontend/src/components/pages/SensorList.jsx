@@ -7,8 +7,11 @@ import { Link as RouterLink } from "react-router-dom";
 import { ChevronRight } from "react-feather";
 
 import SensorItem from "../SensorItem";
+import { useLoaderData } from "react-router-dom";
 
 export default function SensorList() {
+  const sensors = useLoaderData();
+
   return (
     <Sheet
       sx={{
@@ -25,23 +28,27 @@ export default function SensorList() {
           underline="hover"
           color="neutral"
           fontSize="inherit"
-          to="/sensors"
+          to="/"
         >
           Sensors
         </Link>
       </Breadcrumbs>
 
       <Stack spacing={2} alignItems="center">
-        <SensorItem
-          name="Jonah"
-          address="0x331E1882e0FC0fa68fF8b42cB684b77638D6941C"
-          isActive
-        />
-        <SensorItem
-          name="Debby"
-          address="0x331E1882e0FC0fa68fF8b42cB684b77638D6941C"
-        />
-        <Button variant="outlined" fullWidth>
+        {sensors.map((sensor) => (
+          <SensorItem
+            key={sensor.address}
+            name={sensor.name || "untitled"}
+            address={sensor.address}
+            isActive
+          />
+        ))}
+        <Button
+          variant="outlined"
+          fullWidth
+          component={RouterLink}
+          to="/sensors/new"
+        >
           Add More Sensors
         </Button>
       </Stack>

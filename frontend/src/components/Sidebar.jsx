@@ -13,14 +13,14 @@ import ListItemDecorator from "@mui/joy/ListItemDecorator";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
 import { Link as RouterLink } from "react-router-dom";
-import { Home, Thermometer, Settings, LogOut } from "react-feather";
+import { Thermometer, LogOut } from "react-feather";
 
 import useAuth from "../hooks/useAuth";
 import { closeSidebar } from "../utils";
 import ColorSchemeToggle from "./ColorSchemeToggle";
 
 export default function Sidebar({ title }) {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <Sheet
@@ -99,15 +99,7 @@ export default function Sidebar({ title }) {
           }}
         >
           <ListItem>
-            <ListItemButton>
-              <ListItemDecorator>
-                <Home />
-              </ListItemDecorator>
-              <ListItemContent>Home</ListItemContent>
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton component={RouterLink} to="/sensors">
+            <ListItemButton component={RouterLink} to="/">
               <ListItemDecorator>
                 <Thermometer />
               </ListItemDecorator>
@@ -115,7 +107,7 @@ export default function Sidebar({ title }) {
             </ListItemButton>
           </ListItem>
         </List>
-        <List
+        {/* <List
           sx={{
             mt: "auto",
             flexGrow: 0,
@@ -131,16 +123,13 @@ export default function Sidebar({ title }) {
               <ListItemContent>Settings</ListItemContent>
             </ListItemButton>
           </ListItem>
-        </List>
+        </List> */}
       </Box>
       <Divider />
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
         <Avatar variant="outlined" src="/static/images/avatar/3.jpg" />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography fontSize="sm" fontWeight="lg">
-            User 34
-          </Typography>
-          <Typography level="body3">user34@gmail.com</Typography>
+          <Typography level="lg">{user?.login}</Typography>
         </Box>
         <IconButton variant="plain" color="neutral" onClick={logout}>
           <LogOut />

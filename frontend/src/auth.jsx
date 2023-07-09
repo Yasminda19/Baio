@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 
 import { Navigate, useNavigate } from "react-router-dom";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { login as doLogin } from "./service/auth";
+import { useLoaderData } from "react-router-dom";
 
 export const AuthContext = React.createContext();
 
@@ -11,10 +13,12 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   // call this function when you want to authenticate the user
-  const login = React.useCallback(() => {
-    setUser({ login: "user" });
-    navigate("/");
-  }, [navigate, setUser]);
+  const login = (username, password) => {
+    doLogin(username, password).then(() => {
+      setUser({ login: username });
+      navigate("/");
+    });
+  };
 
   // call this function to sign out logged in user
   const logout = React.useCallback(() => {
@@ -22,14 +26,11 @@ export const AuthProvider = ({ children }) => {
     navigate("/login", { replace: true });
   }, [navigate, setUser]);
 
-  const value = React.useMemo(
-    () => ({
-      user,
-      login,
-      logout,
-    }),
-    [login, logout, user]
-  );
+  const value = {
+    user,
+    login,
+    logout,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
@@ -39,10 +40,17 @@ AuthProvider.propTypes = {
 };
 
 export const ProtectedRoute = ({ children }) => {
+  const currentUser = useLoaderData();
   const { user } = React.useContext(AuthContext);
-  if (typeof user?.login === "undefined") {
+
+  if (user == null) {
     return <Navigate to="/login" />;
   }
+
+  if (currentUser?.username !== user?.login) {
+    return <Navigate to="/login" />;
+  }
+
   return children;
 };
 

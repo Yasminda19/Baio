@@ -28,8 +28,9 @@ const dateFormatter = new Intl.DateTimeFormat("en-GB", {
 });
 
 function TimestampFormatter({ timestamp }) {
-  console.log(timestamp);
-  return <React.Fragment>{dateFormatter.format(timestamp)}</React.Fragment>;
+  return (
+    <React.Fragment>{dateFormatter.format(timestamp * 1000)}</React.Fragment>
+  );
 }
 
 TimestampFormatter.propTypes = {
@@ -71,16 +72,16 @@ function getComparator(sortColumn) {
 
 export default function Sensor() {
   const { address } = useParams();
-  const { data } = useLoaderData();
+  const { name, records } = useLoaderData();
 
   const { mode } = useColorScheme();
 
   const [sortColumns, setSortColumns] = React.useState([]);
 
   const sortedRows = React.useMemo(() => {
-    if (sortColumns?.length === 0) return data;
+    if (sortColumns?.length === 0) return records;
 
-    return [...data].sort((a, b) => {
+    return [...records].sort((a, b) => {
       for (const sort of sortColumns) {
         const comparator = getComparator(sort.columnKey);
         const compResult = comparator(a, b);
@@ -90,7 +91,7 @@ export default function Sensor() {
       }
       return 0;
     });
-  }, [data, sortColumns]);
+  }, [records, sortColumns]);
 
   return (
     <Sheet
@@ -108,7 +109,7 @@ export default function Sensor() {
           underline="hover"
           color="neutral"
           fontSize="inherit"
-          to="/sensors"
+          to="/"
         >
           Sensors
         </Link>
@@ -123,7 +124,7 @@ export default function Sensor() {
         </Link>
       </Breadcrumbs>
 
-      <SensorItem name="Jonah" address={address} isActive />
+      <SensorItem name={name} address={address} isActive />
       <Box sx={{ my: 2 }} />
 
       <React.Suspense

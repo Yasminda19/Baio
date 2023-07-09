@@ -2,12 +2,10 @@ import * as React from "react";
 
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
-import Checkbox from "@mui/joy/Checkbox";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel, { formLabelClasses } from "@mui/joy/FormLabel";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Input from "@mui/joy/Input";
-import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
 
 import useAuth from "../../hooks/useAuth";
@@ -122,20 +120,14 @@ export default function Login() {
               onSubmit={(event) => {
                 event.preventDefault();
                 const formElements = event.currentTarget.elements;
-                const data = {
-                  email: formElements.email.value,
-                  password: formElements.password.value,
-                  persistent: formElements.persistent.checked,
-                };
-                console.log(JSON.stringify(data, null, 2));
-                login();
+                login(formElements.email.value, formElements.password.value);
               }}
             >
               <FormControl required>
                 <FormLabel>Email</FormLabel>
                 <Input
                   placeholder="Enter your email"
-                  type="email"
+                  type="text"
                   name="email"
                 />
               </FormControl>
@@ -143,29 +135,10 @@ export default function Login() {
                 <FormLabel>Password</FormLabel>
                 <Input placeholder="•••••••" type="password" name="password" />
               </FormControl>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Checkbox
-                  size="sm"
-                  label="Remember for 30 days"
-                  name="persistent"
-                />
-                <Link fontSize="sm" href="#replace-with-a-link" fontWeight="lg">
-                  Forgot password
-                </Link>
-              </Box>
               <Button type="submit" fullWidth>
                 Sign in
               </Button>
             </form>
-            <Button variant="outlined" color="neutral" fullWidth>
-              Sign in with Google
-            </Button>
           </Box>
           <Box component="footer" sx={{ py: 3 }}>
             <Typography level="body3" textAlign="center">
