@@ -7,8 +7,12 @@ from pathlib import Path
 import struct
 from typing import Any, Dict
 
+from eth_account import Account
+from eth_account.signers.local import LocalAccount
+from eth_typing import ChecksumAddress
 from jose.utils import base64url_decode
 from pydantic import BaseModel
+import ring
 from web3 import Web3
 from web3.contract import Contract
 
@@ -26,11 +30,11 @@ class Record(BaseModel):
 
     @classmethod
     def from_event(cls: Record, event: Any):
-        hr, rr, temp, temp_point, pos, awake = struct.unpack(
-            "<HHHHHH", event.args.data)
+        datetime, hr, rr, temp, temp_point, pos, awake = struct.unpack(
+            "<IHHHHHH", event.args.data)
         position = ["terlentang", "tengkurap"][pos]
         return cls(id=event.blockNumber,
-                   datetime=0,
+                   datetime=datetime,
                    health="OK",
                    heart_rate=hr,
                    respiratory_rate=rr,
@@ -45,9 +49,12 @@ class BaioDApp:
     abi: Dict[str, Any]
     baio: Contract
     baioLedger: Contract
+    endpoint: str
 
-    def __init__(self, endpoint: str, abi_path: str, baio_address: str) -> None:
+    def __init__(self, endpoint: str, abi_path: str, baio_address: str,
+                 master_key: str) -> None:
         self.__w3 = Web3(Web3.HTTPProvider(endpoint_uri=endpoint))
+        self.endpoint = endpoint
 
         path = Path(abi_path)
         if not path.is_file():
@@ -63,20 +70,34 @@ class BaioDApp:
             abi=self.abi.get("Baio"),
         )
 
+        account: LocalAccount = Account.from_key(master_key)
+        self.__w3.eth.default_account = account.address
+
+        if self.baio.caller.owner() != account.address:
+            raise ValueError("Master Account is not Baio contract owner")
+
         if not self.abi.get("BaioLedger"):
             raise ValueError("BaioLedger contract abi is not defined")
 
         self.baioLedger = self.__w3.eth.contract(abi=self.abi.get("BaioLedger"))
 
+    def __ring_key__(self):
+        return self.endpoint
+
+    @ring.lru(maxsize=16)
+    def get_ledger_address(self, address: str) -> ChecksumAddress:
+        return self.baio.caller.getLedger(Web3.to_checksum_address(address))
+
     def get_ledger_events(self, address: str):
-        ledger = self.baioLedger(Web3.to_checksum_address(address))
+        ledgerAddress = self.get_ledger_address(address)
+        ledger = self.baioLedger(ledgerAddress)
         return ledger.events.Record.get_logs(fromBlock="0x0")
 
     def new_ledger(self, sensor_address: str):
         tx_hash = self.baio.functions.newLedger(
             Web3.to_checksum_address(sensor_address)).transact()
         tx_receipt = self.__w3.eth.wait_for_transaction_receipt(tx_hash)
-        tx_receipt
+        return tx_receipt
 
     def _load(self, token):
         if isinstance(token, str):

@@ -19,16 +19,13 @@ from .users import User
 class Sensor(Base):
     __tablename__ = "sensors"
 
-    id: Mapped[int] = mapped_column("id",
-                                    autoincrement=True,
-                                    nullable=False,
-                                    unique=True,
-                                    primary_key=True)
-
     address: Mapped[str] = mapped_column("address",
                                          String(length=64),
                                          nullable=False,
-                                         unique=True)
+                                         unique=True,
+                                         primary_key=True)
+
+    name: Mapped[str] = mapped_column("name", String(length=64), nullable=True)
 
     user_id: Mapped[int] = mapped_column("user_id",
                                          ForeignKey("users.id"),
@@ -37,25 +34,22 @@ class Sensor(Base):
     user: Mapped[User] = relationship("User", back_populates="sensors")
 
     @classmethod
-    async def get_by_id(cls, session: AsyncSession,
-                        uid: int) -> Optional[Sensor]:
-        stmt = select(cls).where(cls.id == uid)
-        return await session.scalar(stmt.order_by(cls.id))
-
-    @classmethod
     async def get_by_address(cls, session: AsyncSession,
                              address: str) -> Optional[Sensor]:
         stmt = select(cls).where(cls.address == address)
-        return await session.scalar(stmt.order_by(cls.id))
+        return await session.scalar(stmt)
 
     @classmethod
-    async def create(cls, session: AsyncSession, address: str,
-                     user: User) -> Sensor:
-        sensor = cls(address=address, user_id=user.id)
+    async def create(cls,
+                     session: AsyncSession,
+                     user: User,
+                     address: str,
+                     name: Optional[str] = None) -> Sensor:
+        sensor = cls(address=address, name=name, user_id=user.id)
         session.add(sensor)
         await session.flush()
 
-        new = await cls.get_by_id(session, id)
+        new = await cls.get_by_address(session, address)
         if not new:
             raise RuntimeError("Instance not created")
         return new
@@ -68,3 +62,6 @@ class Sensor(Base):
 class SensorSchema(BaseModel):
     name: Optional[str]
     address: str
+
+    class Config:
+        orm_mode = True

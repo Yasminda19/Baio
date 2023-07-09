@@ -1,16 +1,19 @@
-import os
-
 from fastapi import APIRouter
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.auth.views import router as auth_v1_router
 from app.api.sensor.views import router as sensor_v1_router
-from app.settings import config
 
 app = FastAPI(title="Baio", docs_url="/docs")
-# app.add_middleware(AuthenticationMiddleware,
-#                    backend=AuthenticationBackend(secret=config.SECRET))
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["authorization", "cookie"],
+)
 
 apiv1 = APIRouter(prefix="/api/v1", tags=["apiv1"])
 apiv1.include_router(auth_v1_router)

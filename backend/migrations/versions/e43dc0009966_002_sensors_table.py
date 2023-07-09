@@ -16,17 +16,22 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.create_table(
+    sensor_tbl = op.create_table(
         "sensors",
-        sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
-        sa.Column("address", sa.String(length=64), nullable=True),
+        sa.Column("address", sa.String(length=64), nullable=False),
+        sa.Column("name", sa.String(length=64), nullable=True),
         sa.Column("user_id", sa.Integer(), nullable=False),
-        sa.PrimaryKeyConstraint("id", name=op.f("pk_sensors")),
-        sa.UniqueConstraint("id", name=op.f("uq_sensors_id")),
+        sa.PrimaryKeyConstraint("address", name=op.f("pk_sensors")),
         sa.UniqueConstraint("address", name=op.f("uq_sensors_address")),
         sa.ForeignKeyConstraint(["user_id"], ["users.id"],
                                 name=op.f("fk_sensors_user_id_users")),
     )
+
+    op.bulk_insert(sensor_tbl, [{
+        "address": "0xB1c6Dc4120e320c49EBDc5A69e752BF266949f9d",
+        "name": "john",
+        "user_id": 1,
+    }])
 
 
 def downgrade() -> None:

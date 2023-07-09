@@ -12,7 +12,8 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from app.db import get_session
 from app.models.users import User
 from app.models.users import UserSchema
-from app.settings import config
+from app.settings import get_config
+from app.settings import Settings
 
 from .schemas import AuthLoginResponse
 
@@ -22,8 +23,13 @@ _crypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class AuthLogin:
 
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(
+        self,
+        session: AsyncSession,
+        config: Annotated[Settings, Depends(get_config)],
+    ) -> None:
         self.dbsession = session
+        self.config = config
 
     async def execute(self, username: str, password: str) -> AuthLoginResponse:
         credentials_exception = HTTPException(
@@ -49,7 +55,7 @@ class AuthLogin:
                 "exp": now + 3600,  # expire in 1 hour
                 "jti": os.urandom(16).hex(),
             },
-            config.SECRET,
+            self.config.SECRET,
             algorithm="HS512")
 
         return AuthLoginResponse(access_token=token, token_type="bearer")
